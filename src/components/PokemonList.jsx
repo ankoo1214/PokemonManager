@@ -2,18 +2,9 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import SearchBar from './SearchBar';
-const pokemonData = [
-  { id: '001', name: 'Bulbasaur', image: require('../assets/bulbasaur.png') },
-  { id: '002', name: 'Ivysaur', image: require('../assets/ivysaur.png') },
-  { id: '003', name: 'Venusaur', image: require('../assets/venusaur.png') },
-  { id: '004', name: 'Charman', image: require('../assets/charman.png') },
-  { id: '005', name: 'Charizard', image: require('../assets/charizar.png') },
-  { id: '006', name: 'Squirtle', image: require('../assets/squirtle.png') },
-  { id: '007', name: 'Wartortle', image: require('../assets/wartortle.png') },
-  { id: '007', name: 'Charmele', image: require('../assets/charmele.png') }
-];
+import pokemonData from './pokemonData';
 
-// Get device dimensions for responsive design
+
 const { width, height } = Dimensions.get('window');
 
 const PokemonList = () => {
@@ -24,9 +15,14 @@ const PokemonList = () => {
         style={[styles.card, { width: width * 0.45 }]} 
         onPress={() => navigation.navigate('Details', { pokemon: item })}
       >
+        <View style ={styles.imageContainer}>
         <Image source={item.image} style={styles.image} />
+        </View>
+       
+        <View style ={styles.nameContainer}>
         <Text style={styles.id}>#{item.id}</Text>
         <Text style={styles.name}>{item.name}</Text>
+        </View>
       </TouchableOpacity>
     );
   
@@ -50,10 +46,10 @@ const styles = StyleSheet.create({
   container: {
   
     paddingHorizontal: '1%',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#FFFFFF',
     justifyContent:'center',
-    alignItems:'center',
-    paddingBottom:'5%'
+  
+    paddingBottom:'25%'
   },
   title: {
     fontSize: width * 0.06, // Dynamic font size
@@ -67,11 +63,12 @@ const styles = StyleSheet.create({
     paddingBottom: height * 0.05, // Dynamic padding
   },
   card: {
-    backgroundColor: '#f49ac2',
+    backgroundColor: '#0D63BF',
     margin: '2%',
     borderRadius: 10,
     alignItems: 'center',
-    paddingVertical: height * 0.02, // Dynamic padding
+    paddingVertical: height * 0.02,
+    paddingHorizontal:width *0.02
   },
   image: {
     width: '5%',
@@ -85,9 +82,23 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   name: {
-    fontSize: width * 0.035, // Dynamic font size
+    fontSize: width * 0.04,
     color: '#fff',
-  }
+    fontWeight:'bold'
+  },
+nameContainer:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    width:'100%',
+    paddingHorizontal:width*0.03,
+    backgroundColor:'#E9724C',
+    borderRadius:10,
+    paddingVertical:height*0.003
+},
+imageContainer:{
+    height:height*0.12
+}
 });
 
 export default PokemonList;
