@@ -213,6 +213,7 @@ export default function EditData() {
         <TextInput
           style={styles.descriptionInput}
           value={description}
+          multiline={true}
           onChangeText={setDescription}
         />
       </View>
@@ -248,8 +249,8 @@ const styles = StyleSheet.create({
       fontSize: width * 0.04,
       borderRadius: 5,
       paddingHorizontal: width * 0.03,
-      elevation: 5, // Add elevation
-      backgroundColor: '#f5f5f5', // Ensure background color is set for elevation
+      elevation: 5,
+      backgroundColor: '#f5f5f5', 
     },
     weaknessInputContainer: {
       marginBottom: width * 0.05,
@@ -318,12 +319,14 @@ const styles = StyleSheet.create({
       marginBottom: width * 0.05,
     },
     descriptionInput: {
-      height: width * 0.1,
-      fontSize: width * 0.04,
-      borderRadius: 5,
-      paddingHorizontal: width * 0.03,
-      elevation: 5, 
-      backgroundColor: '#f5f5f5',
+        fontSize: width * 0.04,
+        height: width * 0.2,
+        backgroundColor:'#f5f5f5',
+        borderRadius: 10,
+        elevation:3,
+        paddingHorizontal: width * 0.03,
+        textAlignVertical: 'top',
+        textAlign:'justify'
     },
     imagePreviewContainer: {
       alignItems: 'center',

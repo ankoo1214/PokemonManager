@@ -94,14 +94,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    height: 40, // Set a fixed height for the input
+    height: 40,
     backgroundColor: '#f5f5f5',
     borderRadius: 5,
-    paddingHorizontal: 10, // Add padding for better text visibility
-    marginRight: 10, // Add margin to separate input and button
+    paddingHorizontal: 10, 
+    marginRight: 10, 
   },
   profileImage: {
-    width: width * 0.1, // Adjust the size of the profile image
+    width: width * 0.1, 
     height: width * 0.1,
     borderRadius: (width * 0.1) / 2, 
     resizeMode:'contain',

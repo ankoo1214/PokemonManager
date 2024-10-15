@@ -28,7 +28,7 @@ export default function AddScreen() {
 
 
   const generateId = () => {
-    const currentCount = pokemons.length; // Get the current count of Pokémon
+    const currentCount = pokemons.length; 
     const newId = currentCount + 1; // Increment the count
     return newId.toString().padStart(3, '0'); // Format as a string with leading zeros
   };
@@ -83,7 +83,7 @@ export default function AddScreen() {
  
 
   };
-
+//clearing the form after submission
   const clearForm = () => {
     setSerial('')
     setName('');
@@ -208,6 +208,7 @@ export default function AddScreen() {
           <TextInput
             style={styles.descriptionInput}
             value={description}
+            multiline={true}
             onChangeText={setDescription}
           />
         </View>
@@ -352,6 +353,7 @@ const styles = StyleSheet.create({
     elevation:3,
     paddingHorizontal: width * 0.03,
     textAlignVertical: 'top',
+    textAlign:'justify'
   },
   button: {
     backgroundColor: '#0D63BF',

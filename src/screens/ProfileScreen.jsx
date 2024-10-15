@@ -11,10 +11,7 @@ const ProfileScreen = () => {
   const user = {
     profilePicture: require('../assets/ash.jpg'),
     name: 'Ash',
-    
-    age: 25,
-    gender: 'Male',
-    country: 'Japan',
+   
   };
 
   return (
@@ -37,24 +34,7 @@ const ProfileScreen = () => {
      
 
         </View>
-      
-        {/* <View style={styles.userInfoContainer}>
-  <View style={styles.infoRow}>
-    <Text style={styles.ageText}>Age:</Text>
-    <Text style={styles.ageText}>{user.age}</Text>
-  </View>
-
-  <View style={styles.infoRow}>
-    <Text style={styles.genderText}>Gender:</Text>
-    <Text style={styles.genderText}>{user.gender}</Text>
-  </View>
-
-  <View style={styles.infoRow}>
-    <Text style={styles.countryText}>Country:</Text>
-    <Text style={styles.countryText}>{user.country}</Text>
-  </View>
-
-</View> */}
+     
 
 
 
@@ -196,14 +176,14 @@ const styles = StyleSheet.create({
     width: width * 0.3,
     resizeMode: 'contain',
 
-    height: height * 0.07, 
+    height: height * 0.08, 
   },
   logoContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffffff',
     elevation: 10,
-    borderWidth:0.2
+
   },
 
     
@@ -229,7 +209,7 @@ const styles = StyleSheet.create({
       fontWeight:'bold'
     },
     pokemonCountContainer:{
-        backgroundColor:'#ffffff',
+        backgroundColor:'#e9724c',
         elevation:3,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -242,7 +222,7 @@ const styles = StyleSheet.create({
     },
     pokemonCountText: {
       fontSize: width * 0.045,
-      color: '#0D63BF',
+      color: '#ffffff',
       fontWeight:'bold',
 
     },
@@ -253,7 +233,7 @@ const styles = StyleSheet.create({
         color: '#ffffff',
         fontWeight:'bold',
         borderRadius:40,
-        backgroundColor:'#E9724C',
+        backgroundColor:'#0d63bf',
         
       },
   });
