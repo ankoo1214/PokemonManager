@@ -103,19 +103,20 @@ export default function EditData() {
     <ScrollView contentContainerStyle={styles.container}>
       {/* Image Preview */}
       <View style={styles.imageContainer}>
-      {image ? (
-        <View style={styles.imagePreviewContainer}>
-      
-          <Image source={image} style={styles.imagePreview} />
-        </View>
-      ) : (
-        pokemon.image && (
-          <View style={styles.imagePreviewContainer}>
-          
-            <Image source={require('../assets/header.png')} style={styles.imagePreview} />
-          </View>
-        )
-      )}
+      <View style={styles.imageContainer}>
+  {image && image.uri ? (
+    <View style={styles.imagePreviewContainer}>
+      <Image source={{ uri: image.uri }} style={styles.imagePreview} />
+    </View>
+  ) : pokemon.image ? (
+    <View style={styles.imagePreviewContainer}>
+      <Image source={{ uri: pokemon.image }} style={styles.imagePreview} />
+    </View>
+  ) : (
+    <Text>No Image Available</Text>
+  )}
+</View>
+
       </View>
      
 
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
     container: {
       padding: width * 0.04,
       backgroundColor: '#fff',
-      paddingBottom: '20%',
+      paddingBottom: '5%',
     },
     label: {
       color: '#E9724C',
@@ -213,33 +214,33 @@ const styles = StyleSheet.create({
     },
     nameInput: {
       height: width * 0.1,
-      borderWidth: 0.5,
+    
       borderRadius: 5,
       paddingHorizontal: width * 0.03,
       elevation: 5, // Add elevation
-      backgroundColor: '#fff', // Ensure background color is set for elevation
+      backgroundColor: '#f5f5f5', // Ensure background color is set for elevation
     },
     weaknessInputContainer: {
       marginBottom: width * 0.05,
     },
     weaknessInput: {
       height: width * 0.1,
-      borderWidth: 0.5,
+    
       borderRadius: 5,
       paddingHorizontal: width * 0.03,
       elevation: 5, // Add elevation
-      backgroundColor: '#fff',
+      backgroundColor: '#f5f5f5',
     },
     strengthInputContainer: {
       marginBottom: width * 0.05,
     },
     strengthInput: {
       height: width * 0.1,
-      borderWidth: 0.5,
+   
       borderRadius: 5,
       paddingHorizontal: width * 0.03,
       elevation: 5, 
-      backgroundColor: '#fff',
+      backgroundColor: '#f5f5f5',
     },
     rowContainer: {
       flexDirection: 'row',
@@ -248,14 +249,15 @@ const styles = StyleSheet.create({
     breedInputContainer: {
       marginBottom: width * 0.05,
       width: '100%',
+
     },
     breedInput: {
       height: width * 0.1,
-      borderWidth: 0.5,
+
       borderRadius: 5,
       paddingHorizontal: width * 0.03,
       elevation: 5, // Add elevation
-      backgroundColor: '#fff',
+      backgroundColor: '#f5f5f5',
     },
     heightInputContainer: {
       marginBottom: width * 0.05,
@@ -263,11 +265,11 @@ const styles = StyleSheet.create({
     },
     heightInput: {
       height: width * 0.1,
-      borderWidth: 0.5,
+     
       borderRadius: 5,
       paddingHorizontal: width * 0.03,
       elevation: 5, 
-      backgroundColor: '#fff',
+      backgroundColor: '#f5f5f5',
     },
     weightInputContainer: {
       marginBottom: width * 0.05,
@@ -275,28 +277,29 @@ const styles = StyleSheet.create({
     },
     weightInput: {
       height: width * 0.1,
-      borderWidth: 0.5,
+     
       borderRadius: 5,
       paddingHorizontal: width * 0.03,
       elevation: 5, 
-      backgroundColor: '#ffffff',
+      backgroundColor: '#f5f5f5',
     },
     descriptionInputContainer: {
       marginBottom: width * 0.05,
     },
     descriptionInput: {
       height: width * 0.1,
-      borderWidth: 0.5,
+     
       borderRadius: 5,
       paddingHorizontal: width * 0.03,
       elevation: 5, 
-      backgroundColor: '#ffffff',
+      backgroundColor: '#f5f5f5',
     },
     imagePreviewContainer: {
       alignItems: 'center',
+      justifyContent:'center',
       borderRadius: 100,
-      height: width * 0.5,
-      width: width * 0.5,
+      height: width * 0.4,
+      width: width * 0.4,
       marginBottom: width * 0.05,
       backgroundColor: '#0D63BF',
       elevation: 5,
@@ -307,11 +310,11 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
     },
     imagePreview: {
-      width: width * 0.4,
+      width: width * 0.25,
       height: height * 0.2,
       borderRadius: 10,
       resizeMode: 'contain',
-      marginBottom: width * 0.05,
+     
     },
     button: {
       backgroundColor: '#0D63BF',
@@ -319,11 +322,14 @@ const styles = StyleSheet.create({
       borderRadius: 5,
       alignItems: 'center',
       marginTop: width * 0.03,
+      padding: width * 0.04,
       
     },
     buttonText: {
-      color: '#fff',
-      fontWeight: 'bold',
+        color: '#ffffff',
+        textAlign: 'center',
+        fontSize: width * 0.04,
+        fontWeight: 'bold',
     },
     imageContainer: {
       justifyContent: 'center',

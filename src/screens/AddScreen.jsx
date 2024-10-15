@@ -79,11 +79,12 @@ export default function AddScreen() {
   return (
     <>
       <View style={styles.header}>
-        <Text style={styles.title}>Add Pokémon</Text>
+      <Image source={require('../assets/header.png')} style={styles.headerImage1} />
         <Image source={require('../assets/pikachuPng.png')} style={styles.headerImage} />
       </View>
 
       <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.imageContainer}>
         {image && (
           <View style={styles.imagePreviewContainer}>
         
@@ -91,6 +92,8 @@ export default function AddScreen() {
           </View>
         )}
 
+        </View>
+       
         <View style={styles.nameInputContainer}>
           <Text style={styles.label}>Pokémon Name</Text>
           <TextInput
@@ -182,13 +185,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     elevation: 5,
     borderWidth: 0.5,
-    padding: height * 0.01,
+    padding: height * 0.03,
   },
   title: {
     fontSize: width * 0.045,
     fontWeight: 'bold',
     textAlign: 'center',
     color: '#000000',
+  },
+  headerImage1: {
+    width: width * 0.3,
+    height: width * 0.2,
+    resizeMode: 'contain',
+    position: 'absolute',
+    left: '5%',
   },
   headerImage: {
     width: width * 0.3,
@@ -212,7 +222,8 @@ const styles = StyleSheet.create({
   },
   nameInput: {
     height: width * 0.1,
-    borderWidth: 0.5,
+    backgroundColor:'#f5f5f5',
+    elevation:3,
     borderRadius: 5,
     paddingHorizontal: width * 0.03,
   },
@@ -221,7 +232,8 @@ const styles = StyleSheet.create({
   },
   weaknessInput: {
     height: width * 0.1,
-    borderWidth: 0.5,
+    backgroundColor:'#f5f5f5',
+    elevation:3,
     borderRadius: 5,
     paddingHorizontal: width * 0.03,
   },
@@ -230,7 +242,8 @@ const styles = StyleSheet.create({
   },
   strengthInput: {
     height: width * 0.1,
-    borderWidth: 0.5,
+    backgroundColor:'#f5f5f5',
+    elevation:3,
     borderRadius: 5,
     paddingHorizontal: width * 0.03,
   },
@@ -240,7 +253,8 @@ const styles = StyleSheet.create({
   },
   breedInput: {
     height: width * 0.1,
-    borderWidth: 0.5,
+    backgroundColor:'#f5f5f5',
+    elevation:3,
     borderRadius: 5,
     paddingHorizontal: width * 0.03,
   },
@@ -250,7 +264,8 @@ const styles = StyleSheet.create({
   },
   heightInput: {
     height: width * 0.1,
-    borderWidth: 0.5,
+    backgroundColor:'#f5f5f5',
+    elevation:3,
     borderRadius: 5,
     paddingHorizontal: width * 0.03,
   },
@@ -260,8 +275,9 @@ const styles = StyleSheet.create({
   },
   weightInput: {
     height: width * 0.1,
-    borderWidth: 0.5,
-    borderRadius: 5,
+    backgroundColor:'#f5f5f5',
+    elevation:3,
+  
     paddingHorizontal: width * 0.03,
   },
   descriptionInputContainer: {
@@ -269,8 +285,9 @@ const styles = StyleSheet.create({
   },
   descriptionInput: {
     height: width * 0.2,
-    borderWidth: 0.5,
-    borderRadius: 5,
+   backgroundColor:'#f5f5f5',
+    borderRadius: 10,
+    elevation:3,
     paddingHorizontal: width * 0.03,
     textAlignVertical: 'top',
   },
@@ -289,16 +306,26 @@ const styles = StyleSheet.create({
   },
   imagePreviewContainer: {
     alignItems: 'center',
-    marginBottom: width * 0.05,
-backgroundColor:'#0d63bf'
+    justifyContent:'center',
+    marginBottom: width * 0.04,
+    backgroundColor:'#0d63bf',
+     height: width * 0.4,
+     width: width * 0.4,
+     borderRadius:100
+  },
+  imageContainer:{
+    flexDirection:'row',
+    justifyContent:'center',
+    alignItems:'center',
+    width:'100%'
   },
   previewText: {
     fontSize: width * 0.04,
     color: '#0D63BF',
   },
   imagePreview: {
-    width: width*0.3,
-    height: width*0.3,
+    width: width*0.4,
+    height: width*0.4,
     resizeMode: 'contain',
  
   },

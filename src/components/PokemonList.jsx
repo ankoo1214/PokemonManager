@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: width * 0.02,
     },
     image: {
-        width: '80%', // Adjust image size for better visibility
+        width:width*0.3, 
         aspectRatio: 1,
         resizeMode: 'contain',
         marginBottom: height * 0.02,
@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: width * 0.03,
         backgroundColor: '#E9724C',
         borderRadius: 10,
+        marginTop: height * 0.03,
         paddingVertical: height * 0.003,
     },
     imageContainer: {

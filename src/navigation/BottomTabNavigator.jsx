@@ -64,15 +64,15 @@ const BottomTabNavigator = () => {
         },
         tabBarShowLabel: false, // Hide labels for cleaner look
         tabBarStyle: {
-          height: height * 0.08, // Custom height of the tab bar as a percentage of screen height
-          width: '100%', // Full width (You can adjust if needed)
+          height: height * 0.08, 
+          width: '100%', 
           paddingTop: height * 0.01,
-          backgroundColor: 'white', // Customize the background color if needed
-          borderTopWidth: 0, // Remove top border if needed
-          position: 'absolute', // Ensure the tab bar is above content
+          backgroundColor: '#f5f5f5', 
+          borderTopWidth: 0, 
+          position: 'absolute', 
           bottom: 0,
-          elevation: 5, // Shadow on Android
-          shadowColor: '#000', // Shadow on iOS
+          elevation: 5, 
+          shadowColor: '#000', 
           shadowOffset: { width: 0, height: 10 },
           shadowOpacity: 0.25,
           shadowRadius: 5,
