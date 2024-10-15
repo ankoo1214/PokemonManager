@@ -37,30 +37,33 @@ export default function EditData() {
       console.error('Failed to load data:', e);
     }
   };
-
   const handleAdd = async () => {
-    // Validation: check if all fields are filled
-    if (!name || !weakness || !strength || !breed || !pokemonHeight || !gender || !weight || !description) {
-      Alert.alert('Error', 'Please fill in all fields before adding a Pokémon');
+  
+
+    if (isNaN(pokemonHeight) || isNaN(weight)) {
+      Alert.alert('Error', 'Height and weight must be valid numbers');
       return;
     }
-
+  
     const updatedPokemon = {
-      id: pokemon.id, // Use the same ID for editing
-      name,
-      weakness: weakness.split(',').map(item => item.trim()),
-      strength: strength.split(',').map(item => item.trim()),
-      breed,
-      height: pokemonHeight,
-      gender,
-      weight,
-      description,
-      image: image ? image.uri : pokemon.image, // Use new image if selected, else keep the old one
-    };
-
-    const updatedPokemonList = pokemonList.map(p => p.id === pokemon.id ? updatedPokemon : p); // Update the existing Pokémon
-
+        id: pokemon.id, // Use the same ID for editing
+        name,
+        weakness: weakness.split(',').map(item => item.trim()),
+        strength: strength.split(',').map(item => item.trim()),
+        breed,
+        height: pokemonHeight,
+        gender,
+        weight,
+        description,
+        image: image ? image.uri : pokemon.image, // Use new image if selected, else keep the old one
+      };
+      
+  
+    // Update the list of Pokémon by replacing the edited Pokémon
+    const updatedPokemonList = pokemonList.map(p => p.id === pokemon.id ? updatedPokemon : p);
+  
     try {
+      // Save updated list to AsyncStorage
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPokemonList));
       setPokemonList(updatedPokemonList);
       clearForm();
@@ -71,6 +74,40 @@ export default function EditData() {
       Alert.alert('Error', 'Failed to save Pokémon data');
     }
   };
+  
+//   const handleAdd = async () => {
+//     // Validation: check if all fields are filled
+//     if (!name || !weakness || !strength || !breed || !pokemonHeight || !gender || !weight || !description) {
+//       Alert.alert('Error', 'Please fill in all fields before adding a Pokémon');
+//       return;
+//     }
+
+//     const updatedPokemon = {
+//       id: pokemon.id, // Use the same ID for editing
+//       name,
+//       weakness: weakness.split(',').map(item => item.trim()),
+//       strength: strength.split(',').map(item => item.trim()),
+//       breed,
+//       height: pokemonHeight,
+//       gender,
+//       weight,
+//       description,
+//       image: image ? image.uri : pokemon.image, // Use new image if selected, else keep the old one
+//     };
+
+//     const updatedPokemonList = pokemonList.map(p => p.id === pokemon.id ? updatedPokemon : p); // Update the existing Pokémon
+
+//     try {
+//       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPokemonList));
+//       setPokemonList(updatedPokemonList);
+//       clearForm();
+//       Alert.alert('Success', 'Pokémon updated successfully!');
+//       navigation.goBack(); // Navigate back after saving
+//     } catch (e) {
+//       console.error('Failed to save data:', e);
+//       Alert.alert('Error', 'Failed to save Pokémon data');
+//     }
+//   };
 
   const clearForm = () => {
     setName('');
@@ -206,7 +243,7 @@ const styles = StyleSheet.create({
     label: {
       color: '#E9724C',
       marginBottom: 5,
-      fontSize: width * 0.045,
+      fontSize: width * 0.04,
       fontWeight: 'bold',
     },
     nameInputContainer: {
@@ -214,7 +251,7 @@ const styles = StyleSheet.create({
     },
     nameInput: {
       height: width * 0.1,
-    
+      fontSize: width * 0.04,
       borderRadius: 5,
       paddingHorizontal: width * 0.03,
       elevation: 5, // Add elevation
@@ -225,7 +262,7 @@ const styles = StyleSheet.create({
     },
     weaknessInput: {
       height: width * 0.1,
-    
+      fontSize: width * 0.04,
       borderRadius: 5,
       paddingHorizontal: width * 0.03,
       elevation: 5, // Add elevation
@@ -236,7 +273,7 @@ const styles = StyleSheet.create({
     },
     strengthInput: {
       height: width * 0.1,
-   
+      fontSize: width * 0.04,
       borderRadius: 5,
       paddingHorizontal: width * 0.03,
       elevation: 5, 
@@ -253,7 +290,7 @@ const styles = StyleSheet.create({
     },
     breedInput: {
       height: width * 0.1,
-
+      fontSize: width * 0.04,
       borderRadius: 5,
       paddingHorizontal: width * 0.03,
       elevation: 5, // Add elevation
@@ -265,7 +302,7 @@ const styles = StyleSheet.create({
     },
     heightInput: {
       height: width * 0.1,
-     
+      fontSize: width * 0.04,
       borderRadius: 5,
       paddingHorizontal: width * 0.03,
       elevation: 5, 
@@ -277,7 +314,7 @@ const styles = StyleSheet.create({
     },
     weightInput: {
       height: width * 0.1,
-     
+      fontSize: width * 0.04,
       borderRadius: 5,
       paddingHorizontal: width * 0.03,
       elevation: 5, 
@@ -288,7 +325,7 @@ const styles = StyleSheet.create({
     },
     descriptionInput: {
       height: width * 0.1,
-     
+      fontSize: width * 0.04,
       borderRadius: 5,
       paddingHorizontal: width * 0.03,
       elevation: 5, 
@@ -323,6 +360,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginTop: width * 0.03,
       padding: width * 0.04,
+      elevation:5
       
     },
     buttonText: {

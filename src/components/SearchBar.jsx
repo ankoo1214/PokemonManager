@@ -77,7 +77,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: "3%",
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
+
+    
   },
   headerImage: {
     width: width * 0.3,

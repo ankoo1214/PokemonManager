@@ -3,10 +3,14 @@ import React, { useState } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPokemonAndSave } from '../redux/pokemonSlice';
+import { useNavigation } from '@react-navigation/native';
+import { ToastAndroid } from 'react-native';
+
 
 const { width, height } = Dimensions.get('window');
 
 export default function AddScreen() {
+    const navigation = useNavigation();
   const [name, setName] = useState('');
   const [weakness, setWeakness] = useState('');
   const [strength, setStrength] = useState('');
@@ -20,6 +24,7 @@ export default function AddScreen() {
   const pokemons = useSelector(state => state.pokemon.pokemonList || []);
 
 
+
   const generateId = () => {
     const currentCount = pokemons.length; // Get the current count of Pokémon
     const newId = currentCount + 1; // Increment the count
@@ -28,9 +33,13 @@ export default function AddScreen() {
 
   const handleAdd = () => {
     if (!name || !weakness || !strength || !breed || !pokemonHeight || !weight || !description || !image) {
-      Alert.alert('Error', 'Please fill in all fields before adding a Pokémon');
+     ToastAndroid.show('Please fill all the fields', ToastAndroid.SHORT);
       return;
     }
+    if (isNaN(pokemonHeight) || isNaN(weight)) {
+        ToastAndroid.show('Height and weight must be valid numbers', ToastAndroid.LONG);
+        return;
+      }
 
     const newPokemon = {
       id: generateId(), // Use the generateId function
@@ -47,7 +56,17 @@ export default function AddScreen() {
     dispatch(addPokemonAndSave(newPokemon));
     
     clearForm();
-    Alert.alert('Success', 'Pokémon added successfully!');
+    console.log("Pokémon added, navigating to Home...");
+    
+    ToastAndroid.show('Pokémon added successfully!', ToastAndroid.SHORT);
+    
+
+    navigation.reset({
+        index: 0,
+        routes: [{ name: 'HomeTabs' }],
+      });
+ 
+
   };
 
   const clearForm = () => {
@@ -163,7 +182,7 @@ export default function AddScreen() {
           <Text style={styles.buttonText}>Select Image</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={handleAdd}>
+        <TouchableOpacity style={styles.button} onPress={()=>handleAdd()}>
           <Text style={styles.buttonText}>Add Pokémon</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -214,23 +233,27 @@ const styles = StyleSheet.create({
   label: {
     color: '#E9724C',
     marginBottom: 5,
-    fontSize: width * 0.045,
+    fontSize: width * 0.04,
     fontWeight: 'bold',
+    letterSpacing:0.5
   },
   nameInputContainer: {
     marginBottom: width * 0.05,
   },
   nameInput: {
-    height: width * 0.1,
+    fontSize: width * 0.04,
+    height: width * 0.10,
     backgroundColor:'#f5f5f5',
     elevation:3,
     borderRadius: 5,
     paddingHorizontal: width * 0.03,
+    
   },
   weaknessInputContainer: {
     marginBottom: width * 0.05,
   },
   weaknessInput: {
+    fontSize: width * 0.04,
     height: width * 0.1,
     backgroundColor:'#f5f5f5',
     elevation:3,
@@ -241,6 +264,7 @@ const styles = StyleSheet.create({
     marginBottom: width * 0.05,
   },
   strengthInput: {
+    fontSize: width * 0.04,
     height: width * 0.1,
     backgroundColor:'#f5f5f5',
     elevation:3,
@@ -252,6 +276,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   breedInput: {
+    fontSize: width * 0.04,
     height: width * 0.1,
     backgroundColor:'#f5f5f5',
     elevation:3,
@@ -263,6 +288,7 @@ const styles = StyleSheet.create({
     width: '48%',
   },
   heightInput: {
+    fontSize: width * 0.04,
     height: width * 0.1,
     backgroundColor:'#f5f5f5',
     elevation:3,
@@ -274,6 +300,7 @@ const styles = StyleSheet.create({
     width: '48%',
   },
   weightInput: {
+    fontSize: width * 0.04,
     height: width * 0.1,
     backgroundColor:'#f5f5f5',
     elevation:3,
@@ -284,6 +311,7 @@ const styles = StyleSheet.create({
     marginBottom: width * 0.05,
   },
   descriptionInput: {
+    fontSize: width * 0.04,
     height: width * 0.2,
    backgroundColor:'#f5f5f5',
     borderRadius: 10,

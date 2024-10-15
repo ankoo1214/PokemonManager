@@ -7,6 +7,7 @@ import DetailScreen from '../screens/DetailScreen';
 import CustomeHeader from '../components/CustomHeader';
 import BottomTabNavigator from './BottomTabNavigator';
 import EditData from '../screens/EditData';
+import AddScreen from '../screens/AddScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ const StackNavigator = () => {
 
       <Stack.Navigator initialRouteName="HomeTabs">
       <Stack.Screen name="HomeTabs" component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="AddScreen" component={AddScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Home" component={HomeScreen}
         options={{header:()=><CustomeHeader></CustomeHeader>}}
         />

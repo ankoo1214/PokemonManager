@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: '1%',
         backgroundColor: '#FFFFFF',
         justifyContent: 'center',
-        paddingBottom: '25%',
+        paddingBottom: '20%',
     },
     list: {
         justifyContent: 'space-between',

@@ -62,21 +62,23 @@ const BottomTabNavigator = () => {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarShowLabel: false, // Hide labels for cleaner look
+        tabBarShowLabel: false, 
         tabBarStyle: {
           height: height * 0.08, 
           width: '100%', 
           paddingTop: height * 0.01,
-          backgroundColor: '#f5f5f5', 
+          backgroundColor: '#ffffff', 
           borderTopWidth: 0, 
           position: 'absolute', 
           bottom: 0,
-          elevation: 5, 
+          elevation: 30, 
           shadowColor: '#000', 
-          shadowOffset: { width: 0, height: 10 },
+          shadowOffset: { width: 0, height: -10 }, // Move shadow upwards
           shadowOpacity: 0.25,
           shadowRadius: 5,
+          shadowColor: '#000', // Ensures the shadow color is black
         },
+        
         tabBarActiveTintColor: '#0D63BF',
         tabBarInactiveTintColor: '#777777',
         headerShown: false,
