@@ -1,61 +1,53 @@
-import { StyleSheet, Text, View, TextInput, Button, ScrollView, Image, Alert } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TextInput, ScrollView, Image, Alert, Dimensions, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch, useSelector } from 'react-redux';
+import { addPokemonAndSave } from '../redux/pokemonSlice';
 
-const STORAGE_KEY = 'POKEMON_DATA';
+const { width, height } = Dimensions.get('window');
 
 export default function AddScreen() {
   const [name, setName] = useState('');
   const [weakness, setWeakness] = useState('');
   const [strength, setStrength] = useState('');
   const [breed, setBreed] = useState('');
-  const [height, setHeight] = useState('');
-  const [gender, setGender] = useState('');
+  const [pokemonHeight, setPokemonHeight] = useState('');
   const [weight, setWeight] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
-  const [pokemonList, setPokemonList] = useState([]);
 
-  useEffect(() => {
-    loadPokemonData();
-  }, []);
+  const dispatch = useDispatch();
+  const pokemons = useSelector(state => state.pokemon.pokemonList || []);
 
-  const loadPokemonData = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem(STORAGE_KEY);
-      const data = jsonValue != null ? JSON.parse(jsonValue) : [];
-      setPokemonList(data);
-    } catch (e) {
-      console.error('Failed to load data:', e);
-    }
+
+  const generateId = () => {
+    const currentCount = pokemons.length; // Get the current count of Pokémon
+    const newId = currentCount + 1; // Increment the count
+    return newId.toString().padStart(3, '0'); // Format as a string with leading zeros
   };
 
-  const handleAdd = async () => {
+  const handleAdd = () => {
+    if (!name || !weakness || !strength || !breed || !pokemonHeight || !weight || !description || !image) {
+      Alert.alert('Error', 'Please fill in all fields before adding a Pokémon');
+      return;
+    }
+
     const newPokemon = {
-      id: String(Math.random()), // Generate a random ID
+      id: generateId(), // Use the generateId function
       name,
-      weakness: weakness.split(',').map(item => item.trim()), // Convert to array
-      strength: strength.split(',').map(item => item.trim()), // Convert to array
+      weakness: weakness.split(',').map(item => item.trim()),
+      strength: strength.split(',').map(item => item.trim()),
       breed,
-      height,
-      gender,
+      height: pokemonHeight,
       weight,
       description,
-      image, // Include the image in the new Pokémon object
+      image,
     };
 
-    const updatedPokemonList = [...pokemonList, newPokemon];
-
-    try {
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPokemonList));
-      setPokemonList(updatedPokemonList);
-      clearForm();
-      Alert.alert('Success', 'Pokémon added successfully!');
-    } catch (e) {
-      console.error('Failed to save data:', e);
-      Alert.alert('Error', 'Failed to save Pokémon data');
-    }
+    dispatch(addPokemonAndSave(newPokemon));
+    
+    clearForm();
+    Alert.alert('Success', 'Pokémon added successfully!');
   };
 
   const clearForm = () => {
@@ -63,11 +55,10 @@ export default function AddScreen() {
     setWeakness('');
     setStrength('');
     setBreed('');
-    setHeight('');
-    setGender('');
+    setPokemonHeight('');
     setWeight('');
     setDescription('');
-    setImage(null); // Clear the selected image
+    setImage(null);
   };
 
   const selectImage = () => {
@@ -79,107 +70,236 @@ export default function AddScreen() {
         } else if (response.error) {
           console.log('ImagePicker Error: ', response.error);
         } else {
-          setImage(response.assets[0]); // Store the selected image
+          setImage(response.assets[0].uri);
         }
       }
     );
   };
 
   return (
-    <ScrollView style={styles.container}>
-        <View style={styles.header}>
+    <>
+      <View style={styles.header}>
         <Text style={styles.title}>Add Pokémon</Text>
-        <Image source={require('../assets/pikachuPng.png')}></Image>
+        <Image source={require('../assets/pikachuPng.png')} style={styles.headerImage} />
+      </View>
+
+      <ScrollView contentContainerStyle={styles.container}>
+        {image && (
+          <View style={styles.imagePreviewContainer}>
+        
+            <Image source={{ uri: image }} style={styles.imagePreview} />
+          </View>
+        )}
+
+        <View style={styles.nameInputContainer}>
+          <Text style={styles.label}>Pokémon Name</Text>
+          <TextInput
+            style={styles.nameInput}
+            value={name}
+            onChangeText={setName}
+          />
         </View>
-     
 
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Pokémon Name"
-        value={name}
-        onChangeText={setName}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Weakness (comma separated)"
-        value={weakness}
-        onChangeText={setWeakness}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Strength (comma separated)"
-        value={strength}
-        onChangeText={setStrength}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Breed"
-        value={breed}
-        onChangeText={setBreed}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Height"
-        value={height}
-        onChangeText={setHeight}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Gender"
-        value={gender}
-        onChangeText={setGender}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Weight"
-        value={weight}
-        onChangeText={setWeight}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter Description"
-        value={description}
-        onChangeText={setDescription}
-      />
+        <View style={styles.weaknessInputContainer}>
+          <Text style={styles.label}>Weakness </Text>
+          <TextInput
+            style={styles.weaknessInput}
+            value={weakness}
+            onChangeText={setWeakness}
+          />
+        </View>
 
-      <Button title="Select Image" onPress={selectImage} />
-      {image && (
-        <Image
-          source={{ uri: image.uri }}
-          style={styles.image}
-        />
-      )}
+        <View style={styles.strengthInputContainer}>
+          <Text style={styles.label}>Strength </Text>
+          <TextInput
+            style={styles.strengthInput}
+            value={strength}
+            onChangeText={setStrength}
+          />
+        </View>
 
-      <Button title="Add Pokémon" onPress={handleAdd} />
-    </ScrollView>
+        <View style={styles.breedInputContainer}>
+          <Text style={styles.label}>Breed</Text>
+          <TextInput
+            style={styles.breedInput}
+            value={breed}
+            onChangeText={setBreed}
+          />
+        </View>
+
+        <View style={styles.rowContainer}>
+          <View style={styles.heightInputContainer}>
+            <Text style={styles.label}>Height (in meters)</Text>
+            <TextInput
+              style={styles.heightInput}
+              value={pokemonHeight}
+              onChangeText={setPokemonHeight}
+            />
+          </View>
+
+          <View style={styles.weightInputContainer}>
+            <Text style={styles.label}>Weight (in kg)</Text>
+            <TextInput
+              style={styles.weightInput}
+              value={weight}
+              onChangeText={setWeight}
+            />
+          </View>
+        </View>
+
+        <View style={styles.descriptionInputContainer}>
+          <Text style={styles.label}>Description</Text>
+          <TextInput
+            style={styles.descriptionInput}
+            value={description}
+            onChangeText={setDescription}
+          />
+        </View>
+
+        <TouchableOpacity style={styles.button} onPress={selectImage}>
+          <Text style={styles.buttonText}>Select Image</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={handleAdd}>
+          <Text style={styles.buttonText}>Add Pokémon</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 16,
+    padding: width * 0.04,
     backgroundColor: '#fff',
+    paddingBottom: '20%',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    elevation: 5,
+    borderWidth: 0.5,
+    padding: height * 0.01,
   },
   title: {
-    fontSize: 24,
+    fontSize: width * 0.045,
     fontWeight: 'bold',
-    marginBottom: 20,
     textAlign: 'center',
+    color: '#000000',
   },
-  input: {
-    height: 50,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 20,
+  headerImage: {
+    width: width * 0.3,
+    height: width * 0.2,
+    resizeMode: 'contain',
+    position: 'absolute',
+    right: '0%',
   },
-  image: {
-    width: 100,
-    height: 100,
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  label: {
+    color: '#E9724C',
+    marginBottom: 5,
+    fontSize: width * 0.045,
+    fontWeight: 'bold',
+  },
+  nameInputContainer: {
+    marginBottom: width * 0.05,
+  },
+  nameInput: {
+    height: width * 0.1,
+    borderWidth: 0.5,
     borderRadius: 5,
-    marginBottom: 20,
-    alignSelf: 'center', // Center the image
+    paddingHorizontal: width * 0.03,
+  },
+  weaknessInputContainer: {
+    marginBottom: width * 0.05,
+  },
+  weaknessInput: {
+    height: width * 0.1,
+    borderWidth: 0.5,
+    borderRadius: 5,
+    paddingHorizontal: width * 0.03,
+  },
+  strengthInputContainer: {
+    marginBottom: width * 0.05,
+  },
+  strengthInput: {
+    height: width * 0.1,
+    borderWidth: 0.5,
+    borderRadius: 5,
+    paddingHorizontal: width * 0.03,
+  },
+  breedInputContainer: {
+    marginBottom: width * 0.05,
+    width: '100%',
+  },
+  breedInput: {
+    height: width * 0.1,
+    borderWidth: 0.5,
+    borderRadius: 5,
+    paddingHorizontal: width * 0.03,
+  },
+  heightInputContainer: {
+    marginBottom: width * 0.05,
+    width: '48%',
+  },
+  heightInput: {
+    height: width * 0.1,
+    borderWidth: 0.5,
+    borderRadius: 5,
+    paddingHorizontal: width * 0.03,
+  },
+  weightInputContainer: {
+    marginBottom: width * 0.05,
+    width: '48%',
+  },
+  weightInput: {
+    height: width * 0.1,
+    borderWidth: 0.5,
+    borderRadius: 5,
+    paddingHorizontal: width * 0.03,
+  },
+  descriptionInputContainer: {
+    marginBottom: width * 0.05,
+  },
+  descriptionInput: {
+    height: width * 0.2,
+    borderWidth: 0.5,
+    borderRadius: 5,
+    paddingHorizontal: width * 0.03,
+    textAlignVertical: 'top',
+  },
+  button: {
+    backgroundColor: '#0D63BF',
+    padding: width * 0.04,
+    borderRadius: 10,
+    elevation: 5,
+    marginTop: width * 0.03,
+  },
+  buttonText: {
+    color: '#ffffff',
+    textAlign: 'center',
+    fontSize: width * 0.04,
+    fontWeight: 'bold',
+  },
+  imagePreviewContainer: {
+    alignItems: 'center',
+    marginBottom: width * 0.05,
+backgroundColor:'#0d63bf'
+  },
+  previewText: {
+    fontSize: width * 0.04,
+    color: '#0D63BF',
+  },
+  imagePreview: {
+    width: width*0.3,
+    height: width*0.3,
+    resizeMode: 'contain',
+ 
   },
 });

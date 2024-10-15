@@ -91,7 +91,7 @@ const BottomTabNavigator = () => {
         options={{
           tabBarButton: (props) => (
             <CustomAddButton {...props}>
-              <Ionicons name="add-circle" size={width * 0.15} color="#0D63BF" />
+              <Ionicons name="add-circle" size={width * 0.15} color="#E9724C" />
             </CustomAddButton>
           ),
         }}

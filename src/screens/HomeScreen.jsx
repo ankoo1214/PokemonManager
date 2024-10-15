@@ -1,11 +1,18 @@
-import { View , Text, SafeAreaView} from "react-native"
-import PokemonList from "../components/PokemonList";
-function HomeScreen(){
-    return (
-       <View>
-        <PokemonList/>
-       </View>
-     
-    )
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import PokemonList from '../components/PokemonList'
+
+export default function HomeScreen() {
+  return (
+    <View style={styles.container}>
+  <PokemonList/>
+    </View>
+  )
 }
-export default HomeScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        backgroundColor:'#ffffff'
+    }
+})

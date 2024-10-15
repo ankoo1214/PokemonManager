@@ -4,7 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const { width, height } = Dimensions.get('window');
 
-export default function SearchBar() {
+export default function SearchBar({ query, setQuery }) {
   const [isInputVisible, setInputVisible] = useState(false); // State to manage input visibility
   const inputWidth = useRef(new Animated.Value(0)).current; // Animated value for input width
 
@@ -16,6 +16,7 @@ export default function SearchBar() {
         duration: 300,
         useNativeDriver: false,
       }).start(() => setInputVisible(false)); // Set visibility to false after animation
+      setQuery(''); // Clear the query when hiding
     } else {
       // If not visible, show the input
       setInputVisible(true);
@@ -23,7 +24,12 @@ export default function SearchBar() {
         toValue: width * 0.4, // Desired width for TextInput
         duration: 300,
         useNativeDriver: false,
-      }).start();
+      }).start(() => {
+        // Automatically focus after input becomes visible
+        if (isInputVisible) {
+          Keyboard.dismiss(); // Dismiss the keyboard when hiding
+        }
+      });
     }
   };
 
@@ -32,6 +38,10 @@ export default function SearchBar() {
       toggleInputVisibility(); // Collapse the input
       Keyboard.dismiss(); // Dismiss the keyboard
     }
+  };
+
+  const handleInputChange = (text) => {
+    setQuery(text); // Update the search query
   };
 
   return (
@@ -47,10 +57,12 @@ export default function SearchBar() {
                 style={styles.input}
                 placeholder="Search..."
                 autoFocus // Automatically focus when visible
+                onChangeText={handleInputChange} // Handle text changes
+                value={query} // Controlled component
               />
             )}
           </Animated.View>
-          <TouchableOpacity onPress={toggleInputVisibility}>
+          <TouchableOpacity onPress={toggleInputVisibility} accessibilityLabel="Toggle search input">
             <Ionicons name='search' color='#000' size={30} />
           </TouchableOpacity>
         </View>
@@ -80,7 +92,7 @@ const styles = StyleSheet.create({
     height: 40, // Set a fixed height for the input
     backgroundColor: '#f5f5f5',
     borderRadius: 5,
-  
-
+    paddingHorizontal: 10, // Add padding for better text visibility
+    marginRight: 10, // Add margin to separate input and button
   },
 });

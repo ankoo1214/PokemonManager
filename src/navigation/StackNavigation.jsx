@@ -6,6 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import DetailScreen from '../screens/DetailScreen';
 import CustomeHeader from '../components/CustomHeader';
 import BottomTabNavigator from './BottomTabNavigator';
+import EditData from '../screens/EditData';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,8 @@ const StackNavigator = () => {
         options={{header:()=><CustomeHeader></CustomeHeader>}}
         />
         <Stack.Screen name="Details" component={DetailScreen}
+         options={{header:({navigation})=><CustomeHeader nav={navigation}></CustomeHeader>}} />
+         <Stack.Screen name="EditData" component={EditData}
          options={{header:({navigation})=><CustomeHeader nav={navigation}></CustomeHeader>}} />
         
       </Stack.Navigator>
