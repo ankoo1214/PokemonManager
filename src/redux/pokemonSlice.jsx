@@ -16,12 +16,12 @@ const pokemonSlice = createSlice({
       state.loading = false; // Set loading to false after loading data
     },
     addPokemon(state, action) {
-        console.log('Before adding:', state.pokemonList);
+    
         const existingIds = state.pokemonList.map(pokemon => parseInt(pokemon.id, 10));
         const newId = existingIds.length > 0 ? Math.max(...existingIds) + 1 : 1; // Generate new ID
         const newPokemon = { id: String(newId).padStart(3, '0'), ...action.payload };
         state.pokemonList.push(newPokemon);
-        console.log('After adding:', state.pokemonList);
+       
       }
     ,
     deletePokemon(state, action) {

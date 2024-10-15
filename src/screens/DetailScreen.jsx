@@ -4,7 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { deletePokemonAndSave } from '../redux/pokemonSlice';
 const { width, height } = Dimensions.get('window');
-
+import { Alert } from 'react-native';
 const DetailScreen = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation()
@@ -13,6 +13,8 @@ const DetailScreen = () => {
   const handleEdit = () => {
     navigation.navigate('EditData', {  pokemon: {
         id: pokemon.id,
+        type:pokemon.type,
+        serial:pokemon.serial,
         name: pokemon.name,
         weakness: pokemon.weakness,
         strength: pokemon.strength,
@@ -21,18 +23,37 @@ const DetailScreen = () => {
         gender: pokemon.gender,
         weight: pokemon.weight,
         description: pokemon.description,
-        image: pokemon.image, // Ensure image is passed
+        image: pokemon.image, // image passing
       }, }); 
   };
+//   delete  pokemon -----
   const handleDelete = () => {
-    dispatch(deletePokemonAndSave(pokemon.id)); // Dispatch the delete action
-    navigation.goBack(); // Go back after deletion
+    Alert.alert(
+      'Delete Confirmation', 
+      'Are you sure you want to delete this Pokémon?', 
+      [
+        {
+          text: 'Cancel', 
+          onPress: () => console.log('Deletion cancelled'), 
+          style: 'cancel', 
+        },
+        {
+          text: 'Delete', 
+          onPress: () => {
+            dispatch(deletePokemonAndSave(pokemon.id)); 
+            navigation.goBack(); 
+          },
+          style: 'destructive', 
+        },
+      ],
+      { cancelable: true } 
+    );
   };
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.pokemonInfo}>
         <View style={styles.idContainer}>
-          <Text style={styles.pokemonNumber}>#{pokemon.id}</Text>
+          <Text style={styles.pokemonNumber}>#{pokemon.serial}</Text>
           <Text style={styles.pokemonName}>{pokemon.name}</Text>
         </View>
         <View style={styles.imageContainer}>
@@ -57,9 +78,13 @@ const DetailScreen = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.statsContainer}>
+        <View style={styles.stat}>
+            <Text style={styles.statLabel}>Type</Text>
+            <Text style={styles.statValue}>{pokemon.type}</Text>
+          </View>
           <View style={styles.stat}>
             <Text style={styles.statLabel}>Height</Text>
-            <Text style={styles.statValue}>{pokemon.height}</Text>
+            <Text style={styles.statValue}>{pokemon.height} ft</Text>
           </View>
           <View style={styles.stat}>
             <Text style={styles.statLabel}>Breed</Text>
@@ -67,25 +92,35 @@ const DetailScreen = () => {
           </View>
           <View style={styles.stat}>
             <Text style={styles.statLabel}>Weight</Text>
-            <Text style={styles.statValue}>{pokemon.weight}</Text>
+            <Text style={styles.statValue}>{pokemon.weight} lbs</Text>
+          </View>
+          <View style={styles.stat}>
+            <Text style={styles.statLabel}>Gender</Text>
+            <Text style={styles.genderSign}>♂ ♀</Text>
           </View>
         
         </View>
         <View style={styles.weaknesAbilityContainer}>
           <View style={styles.weaknessContainer}>
             <Text style={styles.weaknessLabel}>Weakness</Text>
-            <Text style={styles.weakness}>{pokemon.weakness.join(', ')}</Text>
+            <Text style={styles.weakness}>{pokemon.weakness}</Text>
           </View>
           <View style={styles.abilityContainer}>
             <Text style={styles.abilityLabel}>Abilities</Text>
-            <Text style={styles.ability}>{pokemon.strength.join(', ')}</Text>
+            <Text style={styles.ability}>{pokemon.strength}</Text>
           </View>
-          <View>
+          <View  style={styles.descriptionContainer}>
             <Text style={styles.description}>Description</Text>
-            <Text>{pokemon.description}</Text>
+            <Text style={styles.descriptionText
+            }>{pokemon.description}</Text>
           </View>
         </View>
+     
+        <Image style={styles.bottomImage} source={require('../assets/ash1.webp')}/>
+      
       </View>
+      
+     
     </ScrollView>
   );
 };
@@ -93,12 +128,13 @@ const DetailScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E9724C',
+    backgroundColor: '#f6cabc',
     padding: width * 0.04,
+    justifyContent:'center'
   },
   pokemonInfo: {
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#fff',
     borderRadius: 20,
     padding: width * 0.05,
     shadowColor: '#000',
@@ -109,12 +145,13 @@ const styles = StyleSheet.create({
   },
   pokemonNumber: {
     fontSize: width * 0.05,
-    color: '#FF4500',
+    color: '#E9724C',
     fontWeight: 'bold',
   },
   pokemonName: {
     fontSize: width * 0.06,
     fontWeight: 'bold',
+    color:'#505050'
 
   },
   pokemonImage: {
@@ -150,7 +187,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   statsContainer: {
-    marginVertical: height * 0.02,
+    marginVertical: height * 0.0,
   },
   stat: {
     flexDirection: 'row',
@@ -160,10 +197,14 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: width * 0.04,
-    color: '#333',
+    color: '#333333',
   },
   statValue: {
     fontSize: width * 0.04,
+    fontWeight: 'bold',
+  },
+  genderSign:{
+    fontSize: width * 0.05,
     fontWeight: 'bold',
   },
   weaknesAbilityContainer: {
@@ -171,10 +212,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     width: '100%',
-    paddingHorizontal: width * 0.02,
+    
   },
   weaknessContainer: {
-    marginBottom: height * 0.02,
+    marginBottom: height * 0.01,
   },
   weaknessLabel: {
     fontSize: width * 0.04,
@@ -191,11 +232,11 @@ const styles = StyleSheet.create({
   abilityLabel: {
     fontSize: width * 0.04,
     fontWeight: 'bold',
-    color: '#FF4500',
+    color: '#008000',
   },
   ability: {
     fontSize: width * 0.04,
-    color: '#333',
+    color: '#333333',
   },
   buttonContainer: {
     width: '100%',
@@ -225,6 +266,22 @@ const styles = StyleSheet.create({
     fontSize: width * 0.04,
     fontWeight: 'bold',
   },
+  descriptionContainer:{
+    width:width*0.5
+  },
+  bottomImage: {
+    width: width * 0.50, 
+    height: height * 0.35, 
+    position: 'absolute',
+    resizeMode: 'contain',
+    bottom: height *-0.015, 
+    right: width * 0.01, 
+    opacity: 0.9,
+    zIndex: -5,
+  },
+  descriptionText:{
+    color:'#333333'
+  }
 });
 
 export default DetailScreen;

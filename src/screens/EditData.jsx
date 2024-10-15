@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, ScrollView, Image, Alert, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, ScrollView, Image, Alert, Dimensions, TouchableOpacity, ToastAndroid } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,9 +13,11 @@ export default function EditData() {
   const { pokemon } = route.params; // Get pokemon data from route params
 
   // Set initial state values from pokemon data
+  const [serial, setSerial] = useState(pokemon.serial||'');
+  const [type, setType] = useState(pokemon.type||'')
   const [name, setName] = useState(pokemon.name || '');
-  const [weakness, setWeakness] = useState(pokemon.weakness.join(', ') || '');
-  const [strength, setStrength] = useState(pokemon.strength.join(', ') || '');
+  const [weakness, setWeakness] = useState(pokemon.weakness || '');
+  const [strength, setStrength] = useState(pokemon.strength || '');
   const [breed, setBreed] = useState(pokemon.breed || '');
   const [pokemonHeight, setPokemonHeight] = useState(pokemon.height || ''); 
   const [gender, setGender] = useState(pokemon.gender || '');
@@ -26,6 +28,7 @@ export default function EditData() {
 
   useEffect(() => {
     loadPokemonData();
+
   }, []);
 
   const loadPokemonData = async () => {
@@ -39,23 +42,35 @@ export default function EditData() {
   };
   const handleAdd = async () => {
   
-
-    if (isNaN(pokemonHeight) || isNaN(weight)) {
-      Alert.alert('Error', 'Height and weight must be valid numbers');
-      return;
-    }
+ // Check if serial number is exactly 4 digits
+ if (!/^\d{4}$/.test(serial)) { // Regex to match exactly 4 digits
+    ToastAndroid.show('Serial number must be exactly 4 digits', ToastAndroid.SHORT);
+    return;
+  }
+    if (isNaN(weight)) {
+        ToastAndroid.show('Height and weight must be valid numbers', ToastAndroid.LONG);
+        return;
+      }
+          // Check for duplicate serial number
+          const isDuplicateSerial = pokemonList.some(p => p.serial === serial && p.id !== pokemon.id);
+          if (isDuplicateSerial) {
+            ToastAndroid.show('Serial number already exists', ToastAndroid.SHORT);
+            return;
+          }
   
     const updatedPokemon = {
         id: pokemon.id, // Use the same ID for editing
+        serial,
+        type,
         name,
-        weakness: weakness.split(',').map(item => item.trim()),
-        strength: strength.split(',').map(item => item.trim()),
+        weakness,
+        strength,
         breed,
         height: pokemonHeight,
         gender,
         weight,
         description,
-        image: image ? image.uri : pokemon.image, // Use new image if selected, else keep the old one
+        image: image && image.uri ? image.uri : pokemon.image, 
       };
       
   
@@ -66,60 +81,22 @@ export default function EditData() {
       // Save updated list to AsyncStorage
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPokemonList));
       setPokemonList(updatedPokemonList);
-      clearForm();
-      Alert.alert('Success', 'Pokémon updated successfully!');
-      navigation.goBack(); // Navigate back after saving
+    //   clearForm();
+    ToastAndroid.show('Pokémon updated successfully!', ToastAndroid.SHORT);
+     
     } catch (e) {
       console.error('Failed to save data:', e);
       Alert.alert('Error', 'Failed to save Pokémon data');
     }
+    navigation.reset({
+        index: 0,
+        routes: [{ name: 'HomeTabs' }],
+      });
   };
   
-//   const handleAdd = async () => {
-//     // Validation: check if all fields are filled
-//     if (!name || !weakness || !strength || !breed || !pokemonHeight || !gender || !weight || !description) {
-//       Alert.alert('Error', 'Please fill in all fields before adding a Pokémon');
-//       return;
-//     }
 
-//     const updatedPokemon = {
-//       id: pokemon.id, // Use the same ID for editing
-//       name,
-//       weakness: weakness.split(',').map(item => item.trim()),
-//       strength: strength.split(',').map(item => item.trim()),
-//       breed,
-//       height: pokemonHeight,
-//       gender,
-//       weight,
-//       description,
-//       image: image ? image.uri : pokemon.image, // Use new image if selected, else keep the old one
-//     };
 
-//     const updatedPokemonList = pokemonList.map(p => p.id === pokemon.id ? updatedPokemon : p); // Update the existing Pokémon
 
-//     try {
-//       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPokemonList));
-//       setPokemonList(updatedPokemonList);
-//       clearForm();
-//       Alert.alert('Success', 'Pokémon updated successfully!');
-//       navigation.goBack(); // Navigate back after saving
-//     } catch (e) {
-//       console.error('Failed to save data:', e);
-//       Alert.alert('Error', 'Failed to save Pokémon data');
-//     }
-//   };
-
-  const clearForm = () => {
-    setName('');
-    setWeakness('');
-    setStrength('');
-    setBreed('');
-    setPokemonHeight('');
-    setGender('');
-    setWeight('');
-    setDescription('');
-    setImage(null);
-  };
 
   const selectImage = () => {
     launchImageLibrary(
@@ -156,7 +133,14 @@ export default function EditData() {
 
       </View>
      
-
+      <View style={styles.nameInputContainer}>
+        <Text style={styles.label}>Serial Number</Text>
+        <TextInput
+          style={styles.nameInput}
+          value={serial}
+          onChangeText={setSerial}
+        />
+      </View>
       <View style={styles.nameInputContainer}>
         <Text style={styles.label}>Pokémon Name</Text>
         <TextInput
@@ -176,7 +160,7 @@ export default function EditData() {
       </View>
 
       <View style={styles.strengthInputContainer}>
-        <Text style={styles.label}>Strength</Text>
+        <Text style={styles.label}>Abilities</Text>
         <TextInput
           style={styles.strengthInput}
           value={strength}
@@ -184,19 +168,29 @@ export default function EditData() {
         />
       </View>
 
-      <View style={styles.breedInputContainer}>
-        <Text style={styles.label}>Breed</Text>
-        <TextInput
-          style={styles.breedInput}
-          value={breed}
-          onChangeText={setBreed}
-        />
+      <View style={styles.rowContainer}>
+      <View style={styles.heightInputContainer}>
+          <Text style={styles.label}>Category</Text>
+          <TextInput
+            style={styles.breedInput}
+            value={breed}
+            onChangeText={setBreed}
+          />
+        </View>
+        <View style={styles.weightInputContainer}>
+            <Text style={styles.label}>Type</Text>
+            <TextInput
+              style={styles.weightInput}
+              value={type}
+              onChangeText={setType}
+            />
+          </View>
       </View>
 
       {/* Row for Height and Weight */}
       <View style={styles.rowContainer}>
         <View style={styles.heightInputContainer}>
-          <Text style={styles.label}>Height (in meter)</Text>
+          <Text style={styles.label}>Height (in ft)</Text>
           <TextInput
             style={styles.heightInput}
             value={pokemonHeight}
@@ -205,7 +199,7 @@ export default function EditData() {
         </View>
 
         <View style={styles.weightInputContainer}>
-          <Text style={styles.label}>Weight (in kg)</Text>
+          <Text style={styles.label}>Weight (in lbs)</Text>
           <TextInput
             style={styles.weightInput}
             value={weight}

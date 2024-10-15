@@ -11,8 +11,7 @@ const ProfileScreen = () => {
   const user = {
     profilePicture: require('../assets/ash.jpg'),
     name: 'Ash',
-    email: 'john.doe@example.com',
-    phone: '+1 234 567 890',
+    
     age: 25,
     gender: 'Male',
     country: 'Japan',
@@ -64,7 +63,7 @@ const ProfileScreen = () => {
 
 
       <View style={styles.favoritePokemonContainer}>
-        <Text style={styles.favoritePokemonText}>Favorite Pokémon:</Text>
+        <Text style={styles.favoritePokemonText}>Favorite Pokémon</Text>
         <Text style={styles.pokemonNameText}>Pikachu</Text>
 
         <Image source={require('../assets/pikachuPng.png')} style={styles.pokemonImage} />
@@ -86,15 +85,19 @@ const styles = StyleSheet.create({
     gap:height*0.04
   },
   nameContainer:{
-
+    backgroundColor:'#ffffff',
     flexDirection:'row',
     justifyContent:'space-between',
     alignItems:'center',
-    width:'100%'
+    width:'100%',
+    borderRadius:10,
+    elevation:5,
+    padding:width*0.05
   },
   imageContainer: {
- width:width* 0.6,
+ width:width* 0.5,
     height:height* 0.12,
+
   
   },
   profileImage: {
@@ -105,9 +108,10 @@ const styles = StyleSheet.create({
     resizeMode:'contain',
     borderColor: '#E9724C',
     marginBottom: height * 0.02,
+    
   },
   userInfoContainer: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#0d63bf',
     borderRadius: 10,
     padding: width * 0.04,
     shadowColor: '#000',
@@ -147,7 +151,7 @@ const styles = StyleSheet.create({
   favoritePokemonContainer: {
 
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#0d63bf',
     borderRadius: 10,
     padding: width * 0.05,
     shadowColor: '#000',
@@ -161,7 +165,7 @@ const styles = StyleSheet.create({
   favoritePokemonText: {
     fontSize: width * 0.045,
     
-    color: '#0D63BF',
+    color: '#ffffff',
   },
   pokemonNameText: {
     fontSize: width * 0.04,
@@ -170,6 +174,7 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
     paddingHorizontal:width*0.03,
     borderRadius:20,
+    
     marginTop: height * 0.005,
   },
   pokemonImage: {
@@ -177,9 +182,9 @@ const styles = StyleSheet.create({
     height: width * 0.25,
     borderRadius: (width * 0.25) / 2,
     marginTop: height * 0.01,
-
+    
     borderColor: '#E9724C',
-    backgroundColor:'#E9724C'
+    backgroundColor:'#e9724c'
   },
   logo: {
     width: width * 0.3,
@@ -200,21 +205,21 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-between',
       width: '100%',
-      marginVertical: height * 0.01, // Space between each row
+      marginVertical: height * 0.01, 
     },
     ageText: {
       fontSize: width * 0.045,
-      color: '#0D63BF',
+      color: '#ffffff',
       fontWeight:'bold'
     },
     genderText: {
       fontSize: width * 0.045,
-      color: '#0D63BF',
+      color: '#ffffff',
       fontWeight:'bold'
     },
     countryText: {
       fontSize: width * 0.045,
-      color: '#0D63BF',
+      color: '#ffffff',
       fontWeight:'bold'
     },
     pokemonCountContainer:{

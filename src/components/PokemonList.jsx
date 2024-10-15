@@ -19,35 +19,7 @@ const PokemonList = () => {
         dispatch(loadPokemonData());
     }, [dispatch]);
 
-    // Sample Pokémon data
-    const samplePokemon = {
-        name: 'Ankushhh',
-        image: require('../assets/venusaur.png'),
-        weakness: ['Fire', 'Flying', 'Ice', 'Psychic'],
-        strength: ['Water', 'Electric', 'Grass'],
-        breed: 'Seed Pokémon',
-        height: '2.0 m',
-        weight: '100.0 kg',
-        description: 'Venusaur has a large flower on its back, which is said to take on vivid colors if it gets plenty of nutrition and sunlight. Its flower releases a soothing scent.'
-    };
-
-    // Function to add a new Pokémon
-    const handleAddPokemon = async () => {
-        const newPokemonWithId = {
-            ...samplePokemon,
-            id: generatePokemonId() // Assign a sequential ID
-        };
-        dispatch(addPokemon(newPokemonWithId)); // Dispatch the action to add Pokémon
-        await dispatch(savePokemonData([...pokemonList, newPokemonWithId])); // Save to AsyncStorage
-    };
-
-    // Function to generate a sequential ID like '001', '002', etc.
-    const generatePokemonId = () => {
-        const nextId = pokemonList.length + 1;
-        return nextId.toString().padStart(3, '0'); // Pad with zeros up to 3 digits
-    };
-
-    // Filter the data based on search query with a safety check for 'name'
+    
     const filteredData = pokemonList.filter(pokemon =>
         pokemon.name && pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -67,7 +39,7 @@ const PokemonList = () => {
                 )}
             </View>
             <View style={styles.nameContainer}>
-                <Text style={styles.id}>#{item.id}</Text>
+                <Text style={styles.id}>#{item.serial}</Text>
                 <Text style={styles.name}>{item.name}</Text>
             </View>
         </TouchableOpacity>
@@ -83,10 +55,10 @@ const PokemonList = () => {
             <FlatList
                 data={filteredData}
                 renderItem={renderPokemon}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item.serial}
                 numColumns={2}
                 contentContainerStyle={styles.list}
-                showsVerticalScrollIndicator={false} // Hide vertical scroll indicator
+                showsVerticalScrollIndicator={false} 
             />
          
          
@@ -134,7 +106,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        paddingHorizontal: width * 0.03,
+        paddingHorizontal: width * 0.02,
         backgroundColor: '#E9724C',
         borderRadius: 10,
         marginTop: height * 0.03,

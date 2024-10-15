@@ -11,6 +11,8 @@ const { width, height } = Dimensions.get('window');
 
 export default function AddScreen() {
     const navigation = useNavigation();
+    const[serial, setSerial] = useState('')
+    const [type, setType] = useState('');
   const [name, setName] = useState('');
   const [weakness, setWeakness] = useState('');
   const [strength, setStrength] = useState('');
@@ -36,16 +38,29 @@ export default function AddScreen() {
      ToastAndroid.show('Please fill all the fields', ToastAndroid.SHORT);
       return;
     }
-    if (isNaN(pokemonHeight) || isNaN(weight)) {
+     // Check if serial number is exactly 4 digits
+  if (!/^\d{4}$/.test(serial)) { // Regex to match exactly 4 digits
+    ToastAndroid.show('Serial number must be exactly 4 digits', ToastAndroid.SHORT);
+    return;
+  }
+    if (isNaN(weight)) {
         ToastAndroid.show('Height and weight must be valid numbers', ToastAndroid.LONG);
         return;
       }
+      // Check for duplicate serial number
+  const isDuplicateSerial = pokemons.some(pokemon => pokemon.serial === serial);
+  if (isDuplicateSerial) {
+    ToastAndroid.show('Serial number already exists', ToastAndroid.SHORT);
+    return;
+  }
 
     const newPokemon = {
-      id: generateId(), // Use the generateId function
+      id: generateId(), 
+      serial,
+      type,
       name,
-      weakness: weakness.split(',').map(item => item.trim()),
-      strength: strength.split(',').map(item => item.trim()),
+      weakness,
+      strength,
       breed,
       height: pokemonHeight,
       weight,
@@ -56,8 +71,8 @@ export default function AddScreen() {
     dispatch(addPokemonAndSave(newPokemon));
     
     clearForm();
-    console.log("Pokémon added, navigating to Home...");
-    
+   
+    //toast for success
     ToastAndroid.show('Pokémon added successfully!', ToastAndroid.SHORT);
     
 
@@ -70,6 +85,7 @@ export default function AddScreen() {
   };
 
   const clearForm = () => {
+    setSerial('')
     setName('');
     setWeakness('');
     setStrength('');
@@ -112,6 +128,14 @@ export default function AddScreen() {
         )}
 
         </View>
+        <View style={styles.nameInputContainer}>
+          <Text style={styles.label}>Serial Number</Text>
+          <TextInput
+            style={styles.nameInput}
+            value={serial}
+            onChangeText={setSerial}
+          />
+        </View>
        
         <View style={styles.nameInputContainer}>
           <Text style={styles.label}>Pokémon Name</Text>
@@ -132,26 +156,36 @@ export default function AddScreen() {
         </View>
 
         <View style={styles.strengthInputContainer}>
-          <Text style={styles.label}>Strength </Text>
+          <Text style={styles.label}>Abilities </Text>
           <TextInput
             style={styles.strengthInput}
             value={strength}
             onChangeText={setStrength}
           />
         </View>
-
-        <View style={styles.breedInputContainer}>
-          <Text style={styles.label}>Breed</Text>
+      <View style={styles.rowContainer}>
+      <View style={styles.heightInputContainer}>
+          <Text style={styles.label}>Category</Text>
           <TextInput
             style={styles.breedInput}
             value={breed}
             onChangeText={setBreed}
           />
         </View>
+        <View style={styles.weightInputContainer}>
+            <Text style={styles.label}>Type</Text>
+            <TextInput
+              style={styles.weightInput}
+              value={type}
+              onChangeText={setType}
+            />
+          </View>
+      </View>
+        
 
         <View style={styles.rowContainer}>
           <View style={styles.heightInputContainer}>
-            <Text style={styles.label}>Height (in meters)</Text>
+            <Text style={styles.label}>Height (in ft)</Text>
             <TextInput
               style={styles.heightInput}
               value={pokemonHeight}
@@ -160,7 +194,7 @@ export default function AddScreen() {
           </View>
 
           <View style={styles.weightInputContainer}>
-            <Text style={styles.label}>Weight (in kg)</Text>
+            <Text style={styles.label}>Weight (in lbs)</Text>
             <TextInput
               style={styles.weightInput}
               value={weight}
@@ -336,10 +370,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent:'center',
     marginBottom: width * 0.04,
-    backgroundColor:'#0d63bf',
+    backgroundColor:'#0D63BF',
      height: width * 0.4,
      width: width * 0.4,
-     borderRadius:100
+     borderRadius:100,
+     elevation:5
   },
   imageContainer:{
     flexDirection:'row',

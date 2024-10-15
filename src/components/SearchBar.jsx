@@ -43,10 +43,12 @@ export default function SearchBar({ query, setQuery }) {
   const handleInputChange = (text) => {
     setQuery(text); // Update the search query
   };
+  const userProfilePicture = require('../assets/ash.jpg');
 
   return (
     <TouchableWithoutFeedback onPress={handleOutsidePress}>
       <View style={styles.container}>
+      <Image source={userProfilePicture} style={styles.profileImage} />
         <View>
           <Image style={styles.headerImage} source={require('../assets/header.png')} />
         </View>
@@ -66,6 +68,7 @@ export default function SearchBar({ query, setQuery }) {
             <Ionicons name='search' color='#000' size={30} />
           </TouchableOpacity>
         </View>
+        
       </View>
     </TouchableWithoutFeedback>
   );
@@ -96,5 +99,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10, // Add padding for better text visibility
     marginRight: 10, // Add margin to separate input and button
+  },
+  profileImage: {
+    width: width * 0.1, // Adjust the size of the profile image
+    height: width * 0.1,
+    borderRadius: (width * 0.1) / 2, 
+    resizeMode:'contain',
+    borderWidth:0.3,
+    borderColor:'#676767'
+    
   },
 });
