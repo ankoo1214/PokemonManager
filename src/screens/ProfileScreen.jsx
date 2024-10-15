@@ -38,7 +38,7 @@ const ProfileScreen = () => {
 
         </View>
       
-        <View style={styles.userInfoContainer}>
+        {/* <View style={styles.userInfoContainer}>
   <View style={styles.infoRow}>
     <Text style={styles.ageText}>Age:</Text>
     <Text style={styles.ageText}>{user.age}</Text>
@@ -54,12 +54,9 @@ const ProfileScreen = () => {
     <Text style={styles.countryText}>{user.country}</Text>
   </View>
 
-</View>
+</View> */}
 
-<View style={styles.pokemonCountContainer}>
-    <Text style={styles.pokemonCountText}>Total Pokémon:</Text>
-    <Text style={styles.pokemonCountNumber}>{totalPokemon}</Text>
-  </View>
+
 
 
       <View style={styles.favoritePokemonContainer}>
@@ -68,6 +65,10 @@ const ProfileScreen = () => {
 
         <Image source={require('../assets/pikachuPng.png')} style={styles.pokemonImage} />
       </View>
+      <View style={styles.pokemonCountContainer}>
+    <Text style={styles.pokemonCountText}>Total Pokémon:</Text>
+    <Text style={styles.pokemonCountNumber}>{totalPokemon}</Text>
+  </View>
     </ScrollView>  
      </>
   );
@@ -85,18 +86,25 @@ const styles = StyleSheet.create({
     gap:height*0.04
   },
   nameContainer:{
-    backgroundColor:'#ffffff',
+    backgroundColor:'#0d63bf',
     flexDirection:'row',
     justifyContent:'space-between',
     alignItems:'center',
     width:'100%',
     borderRadius:10,
-    elevation:5,
+    elevation:10,
     padding:width*0.05
   },
   imageContainer: {
- width:width* 0.5,
-    height:height* 0.12,
+    width:width* 0.32,
+    height:width* 0.32,
+    borderColor: '#E9724C',
+ 
+    backgroundColor:'#fff',
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius: (width * 0.4) / 2,
+    borderWidth: 2,
 
   
   },
@@ -104,10 +112,8 @@ const styles = StyleSheet.create({
     width: width * 0.3,
     height: width * 0.3,
     borderRadius: (width * 0.4) / 2,
-    borderWidth: 2,
     resizeMode:'contain',
-    borderColor: '#E9724C',
-    marginBottom: height * 0.02,
+    
     
   },
   userInfoContainer: {
@@ -184,7 +190,7 @@ const styles = StyleSheet.create({
     marginTop: height * 0.01,
     
     borderColor: '#E9724C',
-    backgroundColor:'#e9724c'
+    backgroundColor:'#fff'
   },
   logo: {
     width: width * 0.3,
@@ -223,7 +229,7 @@ const styles = StyleSheet.create({
       fontWeight:'bold'
     },
     pokemonCountContainer:{
-        backgroundColor:'#f5f5f5',
+        backgroundColor:'#ffffff',
         elevation:3,
         flexDirection: 'row',
         justifyContent: 'space-between',
