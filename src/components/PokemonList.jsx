@@ -83,7 +83,8 @@ const styles = StyleSheet.create({
         margin: '2%',
         borderRadius: 10,
         alignItems: 'center',
-        paddingVertical: height * 0.02,
+        paddingVertical: height * 0.025,
+        paddingBottom:height*0.015,
         paddingHorizontal: width * 0.02,
         elevation:2
     },
