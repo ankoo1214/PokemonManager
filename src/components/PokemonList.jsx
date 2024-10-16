@@ -19,17 +19,17 @@ const PokemonList = () => {
         dispatch(loadPokemonData());
     }, [dispatch]);
 
-    
-    const filteredData = pokemonList.filter(pokemon =>
-        pokemon.name && pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredData = pokemonList.filter(pokemon => 
+      (pokemon.name && pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (pokemon.serial && pokemon.serial.toString().includes(searchQuery))
+  );
 
     // Render each Pokémon card
     const renderPokemon = ({ item }) => (
         <TouchableOpacity
             style={[styles.card, { width: width * 0.45 }]}
             onPress={() => navigation.navigate('Details', { pokemon: item })}
-            accessibilityLabel={`View details of ${item.name}`} // Accessibility label
+            accessibilityLabel={`View details of ${item.name}`}
         >
             <View style={styles.imageContainer}>
                 {item.image ? (
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: '1%',
         backgroundColor: '#FFFFFF',
         justifyContent: 'center',
-        paddingBottom: '20%',
+        paddingBottom: '15%',
     },
     list: {
         justifyContent: 'space-between',
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         marginBottom: height * 0.02,
     },
     id: {
-        fontSize: width * 0.04, // Dynamic font size
+        fontSize: width * 0.04, 
         fontWeight: 'bold',
         color: '#fff',
     },

@@ -8,6 +8,7 @@ import { combineReducers } from 'redux';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
+  timeout:10000
 };
 
 const rootReducer = combineReducers({
@@ -20,10 +21,7 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-       
-        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
-      },
+      serializableCheck:false,
       immutableCheck: false,
     }),
 });
