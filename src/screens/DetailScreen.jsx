@@ -250,7 +250,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#0D63BF',
-    marginVertical: height * 0.01,
+    marginBottom: height * 0.015,
     borderRadius: 20,
     paddingVertical: '1%',
   },
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    marginBottom: height * 0.02,
+    marginBottom: height * 0.015,
   },
   description: {
     color: '#676767',

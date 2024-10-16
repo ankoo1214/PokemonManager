@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'
-import Octicons  from 'react-native-vector-icons/Octicons';
+import Entypo from 'react-native-vector-icons/Entypo'
+import FontAwesome from  'react-native-vector-icons/FontAwesome'
 import { TouchableOpacity, Animated, StyleSheet, View, Dimensions, Image } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import AddScreen from '../screens/AddScreen';
@@ -51,12 +51,12 @@ const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-        
+        tabBarIcon: ({ color}) => {
+          let iconSize = width*0.075
           if (route.name === 'Home') {
-            return <Octicons name="home" size={size} color={color} />; // Use Octicons for Home
+            return <Entypo name="home" size={iconSize} color={color} />; // Use Octicons for Home
           } else if (route.name === 'Profile') {
-            return <FontAwesome name="user-o" size={size} color={color} />;
+            return <FontAwesome name="user" size={iconSize} color={color} />;
           }
 
           return null;
@@ -71,11 +71,7 @@ const BottomTabNavigator = () => {
           position: 'absolute', 
           bottom: 0,
           elevation: 30, 
-          shadowColor: '#000', 
-          shadowOffset: { width: 0, height: -10 }, 
-          shadowOpacity: 0.25,
-          shadowRadius: 5,
-          shadowColor: '#000', 
+          
         },
         
         tabBarActiveTintColor: '#0D63BF',
