@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#ffffff',
     elevation: 10,
+    borderBottomWidth:0.2,
 
   },
 

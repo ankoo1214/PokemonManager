@@ -81,6 +81,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: "3%",
     backgroundColor: '#ffffff',
+    borderBottomWidth:0.2,
+    width:'100%',
+    elevation:5
 
     
   },
@@ -92,6 +95,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    
   },
   input: {
     height: 40,

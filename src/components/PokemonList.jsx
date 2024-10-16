@@ -68,9 +68,10 @@ const PokemonList = () => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: '1%',
+     
         backgroundColor: '#FFFFFF',
         justifyContent: 'center',
+        alignItems:'center',
         paddingBottom: '15%',
     },
     list: {
