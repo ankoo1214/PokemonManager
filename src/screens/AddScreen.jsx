@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     elevation: 5,
     borderWidth: 0.5,
-    padding: height * 0.03,
+    padding: height * 0.04,
   },
   title: {
     fontSize: width * 0.045,
@@ -255,11 +255,11 @@ const styles = StyleSheet.create({
     left: '5%',
   },
   headerImage: {
-    width: width * 0.3,
+    width: width * 0.4,
     height: width * 0.2,
     resizeMode: 'contain',
     position: 'absolute',
-    right: '0%',
+    right: width*-0.1,
   },
   rowContainer: {
     flexDirection: 'row',
